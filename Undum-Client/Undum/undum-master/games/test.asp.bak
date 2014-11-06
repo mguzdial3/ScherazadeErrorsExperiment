@@ -1,0 +1,5 @@
+<%
+Dim sel
+sel = Request.Form("Selected")
+Response.Write("You select: " & sel ")
+%>
