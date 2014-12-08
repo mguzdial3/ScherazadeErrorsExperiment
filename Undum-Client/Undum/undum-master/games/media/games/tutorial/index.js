@@ -1,8 +1,8 @@
-var ws = new WebSocket("ws://127.0.0.1:8081/");
+var ws = new WebSocket("ws://127.0.0.1:8085/");
 
 ws.onopen = function() {
     alert("Opened!");
-    ws.send("Hello Server");
+    ws.send("0");
 };
 
 ws.onmessage = function (evt) {
@@ -16,3 +16,9 @@ ws.onclose = function() {
 ws.onerror = function(err) {
     alert("Error: " + err);
 };
+
+function SendMessage(message){
+	alert("Sending Message");
+	 ws.send(message);
+}
+

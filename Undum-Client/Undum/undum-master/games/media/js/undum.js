@@ -1261,6 +1261,7 @@
 
         // Do the first state.
         doTransitionTo(game.start);
+
     };
 
     /* Saves the character to local storage. */
@@ -1373,6 +1374,7 @@
 
         // Show the game when we click on the title.
         $("#title").one('click', function() {
+
             $("#content_wrapper, #legal").fadeIn(500);
             $("#tools_wrapper").fadeIn(2000);
             $("#title").css("cursor", "default");
@@ -1381,6 +1383,7 @@
                 $("#toolbar").slideDown(500);
                 $("#menu").show();
             }
+            window.scrollTo(0,1000);
         });
 
         // Any point that an option list appears, its options are its

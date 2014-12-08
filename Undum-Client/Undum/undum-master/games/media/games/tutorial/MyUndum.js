@@ -15,292 +15,16 @@ undum.game.id = "349baf43-9ade-49a8-86d0-24e3de3ce072";
  * prevents Undum from trying to load the saved-game and crashing. */
 undum.game.version = "1.0";
 
+
 /* The situations that the game can be in. Each has a unique ID. */
 undum.game.situations = {
-    start: new undum.SimpleSituation(
-        "<h1>Starting Out with Undum</h1>\
-        <img src='media/games/tutorial/woodcut1.png' class='float_right'>\
-        <p>Welcome to the Undum tutorial. Undum is a tool for writing\
-        hypertext interactive fiction. It has some unique features\
-        and a visual design that encourages narrative games.</p>\
-        \
-        <p>Hypertext interactive fiction is the digital equivalent of the\
-        Choose Your Own Adventure (CYOA) books that were popular in the\
-        1980s. The story is told in chunks, and you select from a range\
-        of options to move it forward. Unlike the book form, however, the\
-        digital form gives you far more flexibility to tell rich stories\
-        and introduce more interesting game elements.</p>\
-        \
-        <p class='transient'>For now, lets move on with the tutorial.\
-		<a href='rooms'>Click this link</a> to move on.</p>\
-        <li>\
-                <FORM name=\"demo_form.asp\">\
-                <b>Please rate the story so far:  </b>\
-                    <input type=\"radio\" name=\"Test1\" value= 5>5(Best)\
-                    <input type=\"radio\" name=\"Test2\" value= 4>4\
-                    <input type=\"radio\" name=\"Test3\" value= 3>3\
-                    <input type=\"radio\" name=\"Test4\" value= 2>2\
-                    <input type=\"radio\" name=\"Test5\" value= 1>1(Worst)\
-                </FORM>\
-                </li>\
-        <li>\
-         <b>Please indicate the number of errors:  </b>\
-         <input type=\"number\" name=\"TestNumber\" min= \"0\" max=\"100\" value=\"0\">\
-         </li>\
-        <li>\
-            <form action=\"demo_form.asp\">\
-           <p><b>Before the security camera can take a good shot at your, you put on a joker mask that covered your entire face. </b></p>\
-            <p><input type=\"checkbox\" name=\"error1\" value=\"Option1\"> 1. Open the bank door</p>\
-             <p><input type=\"checkbox\" name=\"error1\" value=\"Option2\"> 2. Drive to the bank</p>\
-            </form>\
-        </li>\
-        <li>\
-            <form action=\"demo_form.asp\">\
-           <p><b>You pushed hard to open the heavy bank door.</b></p>\
-            <p><input type=\"checkbox\" name=\"error2\" value=\"Option1\"> 1. Drive to the bank</p>\
-            </form>\
-        </li>\
-        <form name=\"input\" action=\"demo_form.asp\" method=\"get\">\
-            <input type=\"submit\" value=\"Submit\">\
-        </form>"
-        
-    ),
-	//<a href='progress'>Click this link</a> to move on.</p>"
-    // For variety, here we define a situation using the top-level
-    // Situation type. This is a neat approach to generate text by
-    // looking it up in the HTML document. For static text that makes
-    // more sense than writing it longhand.
-    rooms: new undum.Situation({
-        enter: function(character, system, from) {
-            system.write($("#s_rooms").html());
-        }
-    }),
-    todo: new undum.SimpleSituation(
-        "<p>Two things can happen in a situation. The character either\
-        <a href='links'>leaves</a> the situation and enters another one, or\
-        they carry out some <a href='./do-something'>action</a>. Actions may\
-        perform some processing, they may display some results, but\
-        ultimately they put the character back into the same situation\
-        again.</p>\
-        \
-        <p>When you are designing your game, use situations to reflect a\
-        change in what the character can do. So you would change situation if\
-        the character pulls a lever to open a trapdoor, for example. Actions\
-        are intended for situations where the character can examine things\
-        more closely, or maybe top up their magic by drinking a potion.\
-        Things that don't affect the state of the world around them.</p>\
-        \
-        <p>Situations generate content when they are <em>enter</em>ed,\
-        <em>exit</em>ed, and when they receive an <em>act</em>ion (the\
-        italicised words are the names of the three methods that do this).\
-        You can write code to generate content in any way you like, so the\
-        content that is displayed can be totally dynamic: taking into\
-        account the current state of the character.\
-        Content is just plain HTML, so you use regular HTML tags to make\
-        things <strong>bold</strong> or <em>italic</em>, or to include\
-        images. This gives you a lot of flexibility. For example, since Undum\
-        targets HTML5 browsers, you could use the <em>audio</em> or\
-        <em>video</em> tags to include rich media.</p>\
-        \
-        <p class='transient'>Make sure you've carried out the action above,\
-        then <a href='links'>continue</a>.</p>",
-        {
-            actions: {
-                'do-something': "<p>You carried out the action, well done.\
-                                 You'll notice that the links for this\
-                                 situation are still active. This means you\
-                                 can click to perform the action again.</p>"
-            }
-        }
-    ),
-    links: new undum.SimpleSituation(
-        "<h1>Changing Content</h1>\
-        <p>Between each chunk of new text, Undum inserts a discrete line\
-        in the margin. This allows you to see at a glance everything that\
-        has been output as a result of your last click.\
-        It is particularly useful for small devices, or when\
-        lots of content has appeared. The window also scrolls so the start\
-        of the new content is as near to the top of the window as possible.\
-        This is also designed to help you read more naturally.</p>\
-        \
-        <p>If you've been watching carefully, you will have noticed that\
-        parts of the text have been disappearing when you move between\
-        situations. This isn't a bug! One of the aims of Undum is to give\
-        game designers the ability to make the transcript of\
-        the game read as a coherent piece of narrative. However, you often\
-        need chunks of text that do nothing but offer the reader choices.\
-        Undum defines a special CSS class to add to your HTML for this\
-        (remember generated content is just HTML). It is <em>transient</em>,\
-        and can be applied to paragraphs, <em>div</em>s, or just\
-        <em>span</em>s<span class='transient'> (such as this one)</span>.</p>\
-        \
-        <p>You may also have noticed that, when you move situations, all the\
-        links in the previous situation turn into regular text. This is to\
-        stop you backtracking and trying previous options when you've already\
-        committed to one. In other H-IF systems, this is\
-        done by completely removing the content from previous pages.\
-        That prevents you going back and reading your story, however.</p>\
-        \
-        <p class='transient'>Let's learn more about these links, and\
-        see how to <a href='sticky'>change that</a> behaviour.</p>"
-    ),
-    sticky: new undum.SimpleSituation(
-        "<h1>Links</h1>\
-        <p>There are three types of link in Undum. The first two we've seen:\
-        links to change situation and links to carry out an action. When you\
-        include a link in your output, Undum parses it and wires it up\
-        correctly. If you create a link with a HTML <em>href</em> attribute\
-        containing just a name ('ballroom', for\
-        example) this will send the character to the situation with that\
-        name. Links\
-        with two components ('ballroom/view-painting', for example) send\
-        the character to a new situation <em>and then</em> carry out the\
-        named action ('view-painting' in this case). To carry out an action\
-        in the current situation, you can replace the situation name with a\
-        dot (so it would be './view-painting'). In all cases, if the\
-        character is already in that situation, then the situation's\
-        <em>enter</em> method won't be called again.</p>\
-        \
-        <img src='media/games/tutorial/woodcut2.png' class='float_left'>\
-        <p>The third type of link, then, is a general hyperlink. If your\
-        link doesn't consist of a single element or pair of elements, as\
-        above, then Undum will guess that you have a normal hyperlink. As\
-        <a href='http://news.bbc.co.uk' class='sticky'>in this link</a>.\
-        If you have a link that <em>does</em> look like an Undum link, you\
-        can still force Undum not to interpret it as an action or situation\
-        move, by adding the CSS class <em>raw</em> to the HTML <em>a</em> tag.\
-        links that don't have the <em>raw</em> class, but that are considered\
-        to be non-Undum links (like the link above), will have <em>raw</em>\
-        added to them before display. This could allow you to style external\
-        links differently, as we have done here.</p>\
-        \
-        <p>In the last situation I said you can prevent links from being\
-        turned into regular text when you move situations. This is done\
-        by another CSS class: <em>sticky</em>. When you\
-        <a href='oneshot'>leave this situation</a>, you'll notice the\
-        external link stays active. This can allow you to have options that\
-        stay valid throughout the narrative, for example, such as a spell to\
-        teleport home.</p>"
-    ),
-    oneshot: new undum.SimpleSituation(
-        "<p>There is one final option for links. If you give a link\
-        the <em>once</em> CSS class, then that link will disappear\
-        after it is clicked. This is  used (as in\
-        <a href='./one-time-action' class='once'>this link</a>) for\
-        actions that you only want to be possible once. There is no\
-        point using 'once' on situation links because they'll be turned\
-        into text as soon as you click them anyway (unless they are also\
-        <em>sticky</em>, of course).</p><p>Once links are useful\
-        for actions such as examining an object more carefully. You\
-        don't want lots of repeated descriptions, so making the link\
-        a <em>once</em> link is more user friendly.</p>\
-        <p>If you have more than one link to the same action, then all\
-        matching links will be removed, so you don't have to worry about\
-        the player having an alternative way to carry out the action.</p>\
-        <p class='transient'>After you've clicked the link, let's\
-        <a href='qualities'>move on</a>.</p>",
-        {
-            actions: {
-                "one-time-action": "<p>As I said, one time actions are\
-                                   mostly used to describe something in\
-                                   more detail, where you don't want the\
-                                   same descriptive text repeated over and\
-                                   over</p>"
-            }
-        }
-    ),
-    qualities: new undum.SimpleSituation(
-        "<h1>Qualities</h1>\
-        <p>That's enough about situations. Let's talk about the character.\
-        The character is described by a series of <em>qualities</em>. These\
-        are numeric values that can describe anything from natural abilities\
-        to how much of a resource the character controls. Qualities are\
-        shown in the box on the right of the text.</p>\
-        \
-        <p>The qualities there are those you started the game with. When you\
-        <a href='quality-types'>go to the next situation</a>, keep your\
-        eyes on the character panel. You'll notice I'll give you a boost to\
-        your stamina quality. This process is animated and highlighted to\
-        draw your attention to it. You could also get a boost of skill\
-        by carrying out <a href='./skill-boost'>this action</a> as many\
-        times as you like.</p>",
-        {
-            actions: {
-                "skill-boost": function(character, system, action) {
-                    system.setQuality("skill", character.qualities.skill+1);
-                }
-            },
-            exit: function(character, system, to) {
-                system.setQuality("stamina", character.qualities.stamina+1);
-            }
-        }
-    ),
-    "quality-types": new undum.SimpleSituation(
-        "<p>Not all the qualities in the character panel are displayed as\
-        numeric. Internally they are all numeric, but different qualities\
-        get to choose how to display themselves. So 'Luck', for example, is\
-        displayed as words (based on the FUDGE RPG's adjective scale),\
-        and 'Novice' is using just a check-mark.</p>\
-        \
-        <p>To see how Luck changes, try using this\
-        <a href='./luck-boost'>luck-boosting action</a> or this\
-        <a href='./luck-reduce'>luck-reducing action</a>. Notice that\
-        luck uses a numeric bonus when it runs out of words. There are a range\
-        of different display types provided with Undum, and you can easily\
-        add your own too.</p>\
-        \
-        <p>When you <a href='character-text'>leave this situation</a>,\
-        I'll set 'Novice' to zero. Watch\
-        the character panel, and you'll see that Novice decides it doesn't\
-        need to be displayed any more and will be removed. You will also see\
-        that when the last\
-        quality in a group is removed ('Novice' is in the 'Progress' group),\
-        then the group heading is also removed. You can tell Undum what\
-        group each quality belongs to, and what order they should be listed.\
-        <p>",
-        {
-            actions: {
-                "luck-boost": function(character, system, action) {
-                    system.setQuality("luck", character.qualities.luck+1);
-                },
-                "luck-reduce": function(character, system, action) {
-                    system.setQuality("luck", character.qualities.luck-1);
-                }
-            },
-            exit: function(character, system, to) {
-                system.setQuality("novice", 0);
-            }
-        }
-    ),
-    "character-text": new undum.SimpleSituation(
-        "<h1>Character Text</h1>\
-        <p>Above the list of qualities is a short piece of text, called\
-        the character-text. This describes the character in some way. It\
-        can be set by any action or when entering or leaving a situation.\
-        It is just regular HTML content, as for all text in Undum. It can\
-        also contain Undum links, so this is another place you can put\
-        actions that the character can carry out over a long period of time.\
-        </p>\
-        <p class='transient'>Let's go to the\
-        <a href='progress'>next situation</a>. As you do, I'll change the\
-        character text. Notice that it is highlighted, just the same as\
-        when a quality is altered.</p>",
-        {
-            exit: function(character, system, to) {
-                system.setCharacterText(
-                    "<p>We're nearing the end of the road.</p>"
-                );
-            }
-        }
-    ),
     progress: new undum.SimpleSituation(
-        "<h1>Showing Progress</h1>\
-        <p>Sometimes you want to make a change in quality a more\
-        significant event. You can do this by animating the change in\
-        quality. If you <a href='./boost-stamina-action'>boost your\
-        stamina</a>, you will see the stamina change in the normal\
-        way in the character panel. But you will also see a progress\
-        bar appear and animate below.</p>",
+        "<p class='transient'> You will now play through an interactive story. During the story you will see descriptions\
+        in black, with your choices of what to do next below in red. The other characters in the story\
+        can take actions, and automatically will when you cannot take actions of your own.\
+        <br><a href='./boost-stamina-action'>Begin The\
+        Story</a>\
+        </p>",
         {
             actions: {
                 // I'm going indirect here - the link carries out an
@@ -309,7 +33,8 @@ undum.game.situations = {
                 // could have just changed situation in the link), but
                 // it illustrates the use of doLink.
                 "boost-stamina-action": function(character, system, action) {
-                    system.doLink("boost-stamina");
+
+                    handleClick(system, -2); //This just gets the current description + option to start
                 }
             },
             exit: function() {}
@@ -319,111 +44,19 @@ undum.game.situations = {
                 );
             }*/
         }
-    ),
-    "boost-stamina": new undum.SimpleSituation(
-        "<p>The progress bar is also useful in situations where the\
-        character block is displaying just the whole number of a quality,\
-        whereas some action changes a fraction. If the quality is displaying\
-        the character's level, for example, you might want to show a progress\
-        bar to indicate how near the character is to levelling up.</p>\
-        \
-        <img src='media/games/tutorial/woodcut3.png' class='float_right'>\
-        <p>After a few seconds, the progress bar disappears, to keep the\
-        focus on the text. Undum isn't designed for games where a lot of\
-        statistic management is needed. If you want a change to be part\
-        of the permanent record of the game, then write it in text.</p>\
-        \
-        <p>Now we're almost at the end of the road. But so\
-        far you have moved through this tutorial linearly - from one\
-        situation to the next, without any choice. Undum is designed to\
-        support narratives that branch and merge.</p>\
-        \
-        <p class='transient'>As a tiny illustration\
-        of this, choose between these two branches:</p>\
-        <ul class='options'>\
-            <li><a href='one'>option one</a>, or</li>" + $("#rate_option").html() +
-            "<li><a href='two'>option two</a>.</li>" + $("#rate_option").html() +
-        "</ul>\
-        <p class='transient'>The option block above is a regular HTML\
-        unordered list (<em>ul</em> tag), with the special <em>options</em>\
-        class. You can click anywhere on the option row to carry out the\
-        action.</p>"
-    ),
-    one: new undum.SimpleSituation(
-        "<h1>Option One</h1>\
-        <p>You chose option one, which is probably for the best, since\
-        option two is written in badly rhyming Coptic.\
-        </p>\
-        <p>From here it is just a <a href='saving'>short step</a> to the\
-        final bits of content in this tutorial.</p>"
-    ),
-    "two": new undum.SimpleSituation(
-        "<h1>Option Two</h1>\
-        <p>You chose option two, which is my favourite option as well.\
-        I find the photographs accompanying option one to be too disturbing.\
-        Finger nails just shouldn't bend that way...</p>\
-        <p>From here it is just a <a href='saving'>short step</a> to the\
-        final bits of content in this tutorial.</p>"
-    ),
-    // Again, we'll retrieve the text we want from the HTML file.
-    "saving": new undum.Situation({
-        enter: function(character, system, from) {
-            system.write($("#s_saving").html());
-			alert("why are you guys here?");
-			alert($("#s_saving").html());//////
-        }
-    }),
-    "last": new undum.SimpleSituation(
-        "<h1>Where to Go Now</h1>\
-        <p>So that's it. We've covered all of Undum. This situation is the\
-        end, because it has no further links. The 'The End' message is\
-        just in the HTML output of this situation, it isn't anything special\
-        to Undum</p>\
-        \
-        <p>I've added an\
-        inspiration quality to your character list. Its time for you to\
-        crack open the game file and write your own story.</p>\
-        <h1>The End</h1>",
-        {
-            enter: function(character, system, from) {
-                system.setQuality("inspiration", 1);
-                system.setCharacterText(
-                    "<p>You feel all inspired, why not have a go?</p>"
-                );
-            }
-        }
     )
 };
 
 // ---------------------------------------------------------------------------
 /* The Id of the starting situation. */
-undum.game.start = "start";
+undum.game.start = "progress";
 
 // ---------------------------------------------------------------------------
 /* Here we define all the qualities that our characters could
  * possess. We don't have to be exhaustive, but if we miss one out then
  * that quality will never show up in the character bar in the UI. */
 undum.game.qualities = {
-    skill: new undum.IntegerQuality(
-        "Skill", {priority:"0001", group:'stats'}
-    ),
-    stamina: new undum.NumericQuality(
-        "Stamina", {priority:"0002", group:'stats'}
-    ),
-    luck: new undum.FudgeAdjectivesQuality( // Fudge as in the FUDGE RPG
-        "<span title='Skill, Stamina and Luck are reverently borrowed from the Fighting Fantasy series of gamebooks. The words representing Luck are from the FUDGE RPG. This tooltip is illustrating that you can use any HTML in the label for a quality (in this case a span containing a title attribute).'>Luck</span>",
-        {priority:"0003", group:'stats'}
-    ),
-
-    inspiration: new undum.NonZeroIntegerQuality(
-        "Inspiration", {priority:"0001", group:'progress'}
-    ),
-    novice: new undum.OnOffQuality(
-        "Novice", {priority:"0002", group:'progress', onDisplay:"&#10003;"}
-    ),
-	pageRating: new undum.NumericQuality(
-		"pageRating", {priority:"0001", group:'stats'}
-	),
+    
 };
 
 // ---------------------------------------------------------------------------
@@ -516,4 +149,429 @@ var GetSelectedItem = function() {
 	}
 	
 	msg = [cur_page_chosen, option_chosen];
+}
+var plotName = 'plotpoint';
+var plotNum = 1;
+var ws = new WebSocket("ws://127.0.0.1:8097/");
+var currSystem;
+var intervalVar;
+var finished = false;
+
+var tableArray = ["","",""];
+var textInputs = [];
+
+var part_one = "Storyyyyy";
+var part_two = "Tableeee";
+var part_three = "Listeeeee";
+var part_four = "Surveyyyy";
+
+var hasStartedSecond = false;
+
+function getPlotName(){
+    return plotName+plotNum;
+}
+function getNextPlotName(){
+    return plotName+(plotNum+1);
+}
+
+function handleClick(system, choice){
+    currSystem = system;
+  	SendStoryMessage(""+choice);
+	return false;
+  }
+
+
+ws.onopen = function() {
+};
+
+ws.onmessage = function (evt) {
+
+
+    var str = ""+evt.data
+
+    if(str.indexOf(part_one)!=-1){
+        str = str.substring(part_one.length);
+
+        HandleStorySeverMessage(str);
+    }
+    else if(str.indexOf(part_three)!=-1){
+        str = str.substring(part_three.length);
+
+        HandleSeverAllLinesMessage(str);
+        //window.scrollTo(0, 1000);
+        $('html, body').animate({
+            scrollTop: $("#content").offset().top
+        }, 1000);
+    }
+
+
+    
+};
+
+ws.onclose = function() {
+    alert("Disconnected from server. Please reload!");
+};
+
+ws.onerror = function(err) {
+    alert("Error: " + err);
+};
+
+function HandleStorySeverMessage(str){
+    var res = str.split("*");
+
+    var desc = "<p>"
+
+    desc+=res[0]+"</p>"
+
+    if(res[res.length-1].indexOf("HARDSTOP") > -1){
+        finished = true;
+        desc+="<button onclick=\"SwitchToErrorInput1()\">Next Section</button>";
+        
+    }
+
+    if(!finished){
+        for(i=1; i<res.length; i++){
+            desc+="<p class='transient'><a href='./pick"+(i-1)+"'>"+res[i]+"</a></p>";
+        
+        }
+    }
+
+    undum.game.situations[getPlotName()] =new undum.SimpleSituation(
+        desc,
+        {
+            actions: {
+                "pick0": function(character, system, action) {
+
+                    handleClick(system, 0);
+                },
+                "pick1": function(character, system, action) {
+
+                    handleClick(system, 1);
+                },
+                "pick2": function(character, system, action) {
+
+                    handleClick(system, 2);
+                },
+                "pick3": function(character, system, action) {
+
+                    handleClick(system, 3);
+                },
+                "pick4": function(character, system, action) {
+
+                    handleClick(system, 4);
+                },
+                "pick5": function(character, system, action) {
+
+                    handleClick(system, 5);
+                },
+                "pick6": function(character, system, action) {
+
+                    handleClick(system, 6);
+                },
+                "pick7": function(character, system, action) {
+
+                    handleClick(system, 7);
+                },
+                "pick8": function(character, system, action) {
+
+                    handleClick(system, 8);
+                },
+                "pick9": function(character, system, action) {
+
+                    handleClick(system, 9);
+                },
+                "pick10": function(character, system, action) {
+
+                    handleClick(system, 10);
+                },
+
+            },
+            exit: function() {}
+                /*function(character, system, to) {
+                system.animateQuality(
+                    'stamina', character.qualities.stamina+1
+                );
+            }*/
+        }
+    )
+    currSystem.doLink(getPlotName());
+    plotNum+=1;
+    if(!finished){
+        if(res.length>2){ //If there are player actions
+           clearTimeout(intervalVar)
+            intervalVar = setTimeout(function () {SetNPCAction()}, 5000);
+        }
+        else{
+           intervalVar = setTimeout(function () {SetNPCAction()}, 1000);
+        }
+    }
+}
+
+function HandleSeverAllLinesMessage(str){
+    var res = str.split("*");
+
+    var num = 0;
+    for(i=0; i<res.length; i++){
+        if(res[i].length>0 && i!=(res.length-1)){
+            
+            
+
+            if(res[i].charAt(0)=='-'){
+                var lineId ="allLines"+num;
+                $("#content").append("<input type=\"checkbox\" id=\""+lineId+"\"+> "+"&nbsp"+"&nbsp"+res[i]+"<br>");
+                num+=1;
+            }
+            else{
+                
+               $("#content").append("<br>"+res[i]+"<br>"); 
+               
+            }
+        }
+    }
+
+    if(!hasStartedSecond){  
+         $("#content").append("<div><p>Clicking the button below will end this sectiona nd begin the next story section with an entirely new story.</p></div>");
+        $("#content").append("<div><button onclick=\"StartAgain()\">Next Story</button></div>");
+    }
+    else{
+         $("#content").append("<div><button onclick=\"EndArea()\">Next Section</button></div>");
+    }
+
+    
+}
+
+function SendStoryMessage(message){
+    var str = (part_one+message);
+    ws.send(str);
+    clearTimeout(intervalVar)
+}
+
+function SetNPCAction(){
+    var str = (part_one+(-1));
+    ws.send(str);
+}
+
+function SwitchToErrorInput2(){
+
+     
+    if(!hasStartedSecond && CheckRadioButtonLine("questionOne")
+        && CheckRadioButtonLine("questionTwo")
+        && CheckRadioButtonLine("questionThree")
+        && CheckRadioButtonLine("questionFour")
+        && CheckRadioButtonLine("questionFive")
+        && CheckRadioButtonLine("questionSix")
+        && CheckRadioButtonLine("questionSeven")){
+       CreateTable();   
+        $('html, body').animate({
+            scrollTop: $("#content").offset().top
+        }, 1000);
+    }
+    else if(hasStartedSecond && CheckRadioButtonLine("questionOne")
+        && CheckRadioButtonLine("questionTwo")
+        && CheckRadioButtonLine("questionThree")
+        && CheckRadioButtonLine("questionFour")
+        && CheckRadioButtonLine("questionFive")
+        && CheckRadioButtonLine("questionSix")
+        && CheckRadioButtonLine("questionSeven")
+        && CheckRadioButtonLine("questionEight")
+        && CheckRadioButtonLine("questionNine")
+        && CheckRadioButtonLine("questionTen")
+        && CheckRadioButtonLine("questionEleven")
+        ){
+        CreateTable();  
+        $('html, body').animate({
+            scrollTop: $("#content").offset().top
+        }, 1000);   
+    }
+    else{
+       alert("Please give a response to each statement"); 
+    }
+
+
+    
+}
+
+function CreateTable(){
+       $("#content").empty();
+            $("#content").append( "<p id=\"p1\">Please list all the options you remember that were contradictions or didn't make sense in your playthrough, with one line per wrong option::</p>" );
+            $("#content").append( "<div></div><table border=\"0\" style=\"width:400\">" );    
+
+            for(i=0; i<tableArray.length; i++){
+                var str = ("myTable"+i);
+                if((tableArray.length-1)!=i){
+                    $("#content").append( "<tr><td><p>Option:</p><input type=\"text\" id=\""+str+"\" name=\"lname"+i+"\" size = \"100\" value=\""+tableArray[i]+"\" ></td></tr>" );
+                }
+                else{
+                     $("#content").append( "<tr><td><p>Option:</p><input type=\"text\" id=\""+str+"\" name=\"lname"+i+"\" size = \"100\" value=\""+tableArray[i]+"\" onclick=\"AddTable()\"></td></tr>" );
+                }
+            }
+            $("#content").append( "</table></div>" );
+            $("#content").append("<button onclick=\"AddTable()\">Add Box</button>");
+            $("#content").append("<div><button onclick=\"SwitchToErrorInput3()\">Next Section</button></div>");
+            
+            if(hasStartedSecond){
+                SetProgressText("7");
+            }
+            else{
+                SetProgressText("3");
+            }
+}
+
+function AddTable(){
+    document.getElementById("p1").innerHTML ="Worked";
+
+    for(i=0; i<tableArray.length; i++){
+        var str = ("myTable"+i);
+        var doc =  document.getElementById(str);
+        tableArray[i] =doc.value;
+    }
+
+    tableArray[ tableArray.length] = "";
+
+    CreateTable();
+    
+}
+
+function SwitchToErrorInput3(){
+    var allWorks = false;
+    var anyAstericks = false;
+    for(i=0; i<tableArray.length; i++){
+        var str = ("myTable"+i);
+        var doc =  document.getElementById(str);
+        tableArray[i] =doc.value;
+
+        if(tableArray[i].length!=0 && !allWorks){
+            allWorks = true;
+        }
+
+        if(tableArray[i].indexOf("*")!=-1){
+            anyAstericks=true;
+        }
+    }
+
+    if(allWorks){
+        if(hasStartedSecond){
+            SetProgressText("8");
+        }
+        else{
+            SetProgressText("4");
+        }
+        
+        $('html,body').scrollTop(0);
+        $("#content").empty();
+        $("#content").append( "<p id=\"p2\">Please check the box next to any line that presented a contradition or didn't make sense in the story.</p><div></div>" );
+        //Send the data
+        var strToSend = "";
+
+        for(i=0; i<tableArray.length; i++){
+            strToSend+=tableArray[i]+"*";
+        }
+
+        ws.send(part_two+strToSend);
+
+        //Request for table filler
+        ws.send((part_three+"get"));
+
+    }
+    else{
+        if(!allWorks){
+            alert("Please specify an error or type Not Any in a box");
+
+        }
+        else if(anyAstericks){
+            alert("Please do not use the symbol * in your responses");
+        }
+    }
+    
+}
+
+function StartAgain(){
+        SetProgressText("5");
+        hasStartedSecond = true;
+        $("#content").empty();
+        finished=false;
+        currSystem.doLink("progress");
+    
+    
+}
+ 
+function CheckRadioButtonLine(str){
+    var thisOneWorked = false;
+    for(i=1; i<7; i++){
+        var myId = (str+i);
+        if(document.getElementById(myId).checked){
+            thisOneWorked = true;
+        }
+    }
+    return thisOneWorked;
+}
+
+function EndArea(){
+ 
+    SetProgressTextTotal("End");
+    $("#content").empty();
+    $("#content").append( "<p id=\"p3\">You have finished the experiment, please return back to Amazon Mechanical Turk.</p>" );
+}
+
+function SetProgressText(str){
+     document.getElementById("progressNum").innerHTML = "Part "+str+" of 8";
+}
+
+function SetProgressTextTotal(str){
+     document.getElementById("progressNum").innerHTML = str;
+}
+
+function GetRadialButtons(questionValue){
+    var str = "";
+    str+="<th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"1"+"\" value=\"StronglyDisagree\"></th><th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"2"+"\" value=\"Disagree\"></th><th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"3"+"\" value=\"SlightlyDisagree\"></th><th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"4"+"\" value=\"SlightlyAgree\"></th><th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"5"+"\" value=\"Agree\"></th><th><input type=\"radio\" name=\""+questionValue+"\" id=\""+questionValue+"6"+"\" value=\"StronglyAgree\"></th>";
+    return str;
+}
+
+function SwitchToErrorInput1(){
+    $('html, body').animate({
+            scrollTop: $("#content").offset().top
+        }, 1000);
+    if(hasStartedSecond){
+        SetProgressText("6");
+    }
+    else{
+        SetProgressText("2");
+    }
+    tableArray = ["","",""];
+    $("#content").empty();
+    $("#content").append( "<p id=\"p3\">Please indicate the degree to which you agree with the following statements. </p><div>" );
+
+    //Survey section beginning of table
+    $("#content").append( "<div><table border=\"1\" style=\"width:100%\">" ); 
+
+    //header thing
+    $("#content").append( "<tr><th>Statement</th><th>Strongly Disagree</th><th>Disagree</th><th>Slightly Agree</th><th>Slightly Disagree</th><th>Agree</td><th>Strongly Agree</th></tr>" );
+    
+    //Questions
+    $("#content").append( "<tr><td>I understood the story of the interactive narrative.</td>"+GetRadialButtons("questionOne")+"</tr><hr>" );
+    $("#content").append( "<tr><td>The story largely made sense.</td>"+GetRadialButtons("questionTwo")+"</tr><hr>" );
+    $("#content").append( "<tr><td>I enjoyed the story of the interactive narrative.</td>"+GetRadialButtons("questionThree")+"</tr><hr>" );
+    $("#content").append( "<tr><td>I couldn't determine what type of story this was.</td>"+GetRadialButtons("questionFour")+"</tr><hr>" );
+    if(hasStartedSecond){
+        $("#content").append( "<tr><td>Please mark Disagree for this question.</td>"+GetRadialButtons("questionFive")+"</tr><hr>" );
+    }
+    else{
+        $("#content").append( "<tr><td>Please mark Agree for this question.</td>"+GetRadialButtons("questionFive")+"</tr><hr>" );
+    }
+
+    $("#content").append( "<tr><td>I didn’t understand what was happening in the story.</td>"+GetRadialButtons("questionSix")+"</tr><hr>" );
+    $("#content").append( "<tr><td>I felt I could take an active role in the story.</td>"+GetRadialButtons("questionSeven")+"</tr><hr>" );
+
+    if(hasStartedSecond){
+        $("#content").append( "<tr><td>I regularly read fiction.</td>"+GetRadialButtons("questionEight")+"</tr><hr>" );
+        $("#content").append( "<tr><td>I regularly play video games.</td>"+GetRadialButtons("questionNine")+"</tr><hr>" );
+        $("#content").append( "<tr><td>I am familiar with choose your own adventure books.</td>"+GetRadialButtons("questionTen")+"</tr><hr>" );
+        $("#content").append( "<tr><td>I am familar with interactive fiction or text adventure games (such as Zork).</td>"+GetRadialButtons("questionEleven")+"</tr><hr>" );
+    }
+
+    //End of table
+    $("#content").append( "</table></div>" );
+
+    $("#content").append("<button onclick=\"SwitchToErrorInput2()\">Next Section</button>");
+   
 }
